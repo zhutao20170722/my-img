@@ -1,0 +1,8 @@
+# Day Trading System Requirements
+# 日内交易系统依赖
+
+# 本系统仅使用Python标准库，无需外部依赖
+# This system only uses Python standard library, no external dependencies required
+
+# Python版本要求 / Python version requirement
+# Python >= 3.7
