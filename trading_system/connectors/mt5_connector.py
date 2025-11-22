@@ -235,7 +235,9 @@ class MT5Connector(BaseConnector):
             request = {
                 "action": self.mt5.TRADE_ACTION_DEAL,
                 "symbol": order.symbol,
-                "volume": float(order.quantity) / 100,  # MT5 uses lots
+                # MT5 uses lot size (volume). 1 lot = 100 shares for most instruments.
+                # Note: This may vary by broker and instrument type (e.g., forex uses different lot sizes)
+                "volume": float(order.quantity) / 100,  # Convert shares to lots
                 "type": self._convert_order_type(order.order_type, order.side),
                 "deviation": 20,
                 "magic": 234000,

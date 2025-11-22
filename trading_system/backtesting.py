@@ -8,6 +8,7 @@ from typing import List, Dict, Any, Optional
 from datetime import datetime
 from decimal import Decimal
 import json
+import math
 
 
 @dataclass
@@ -295,14 +296,14 @@ class BacktestAnalyzer:
         # Calculate mean and standard deviation
         mean_return = sum(returns) / len(returns)
         variance = sum((r - mean_return) ** 2 for r in returns) / len(returns)
-        std_dev = variance.sqrt() if variance > 0 else Decimal('0')
+        std_dev = Decimal(str(math.sqrt(float(variance)))) if variance > 0 else Decimal('0')
         
         if std_dev == 0:
             return Decimal('0')
         
         # Annualized Sharpe ratio (assuming 252 trading days)
         daily_rf = risk_free_rate / 252
-        sharpe = (mean_return - daily_rf) / std_dev * Decimal('252').sqrt()
+        sharpe = (mean_return - daily_rf) / std_dev * Decimal(str(math.sqrt(252)))
         
         return sharpe
     
@@ -344,13 +345,13 @@ class BacktestAnalyzer:
             return Decimal('0')
         
         downside_variance = sum(r ** 2 for r in downside_returns) / len(downside_returns)
-        downside_dev = downside_variance.sqrt() if downside_variance > 0 else Decimal('0')
+        downside_dev = Decimal(str(math.sqrt(float(downside_variance)))) if downside_variance > 0 else Decimal('0')
         
         if downside_dev == 0:
             return Decimal('0')
         
         # Annualized Sortino ratio
         daily_rf = risk_free_rate / 252
-        sortino = (mean_return - daily_rf) / downside_dev * Decimal('252').sqrt()
+        sortino = (mean_return - daily_rf) / downside_dev * Decimal(str(math.sqrt(252)))
         
         return sortino

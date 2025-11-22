@@ -149,14 +149,15 @@ class IBConnector(BaseConnector):
             bar_size = timeframe_map.get(timeframe, "1 min")
             
             # Calculate duration based on timeframe and count
+            # IB duration format: "S" (seconds), "D" (days), "W" (weeks), "M" (months), "Y" (years)
             duration_map = {
-                "1 min": f"{count} S",  # seconds
-                "5 mins": f"{count * 5 // 60} D",  # days
-                "15 mins": f"{count * 15 // 60} D",
-                "30 mins": f"{count * 30 // 60} D",
-                "1 hour": f"{count // 24 + 1} D",
-                "4 hours": f"{count * 4 // 24 + 1} D",
-                "1 day": f"{count} D",
+                "1 min": f"{max(1, count * 60)} S",  # Convert to seconds
+                "5 mins": f"{max(1, count * 5 * 60)} S",  # Convert to seconds
+                "15 mins": f"{max(1, count // 4 + 1)} D",  # ~4 bars per hour
+                "30 mins": f"{max(1, count // 2 + 1)} D",  # ~2 bars per hour
+                "1 hour": f"{max(1, count // 6 + 1)} D",  # ~6 bars per day (trading hours)
+                "4 hours": f"{max(1, count + 1)} D",  # ~1-2 bars per day
+                "1 day": f"{max(1, count)} D",  # 1 bar per day
             }
             
             duration = duration_map.get(bar_size, "1 D")
