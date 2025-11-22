@@ -11,6 +11,8 @@ from .strategies import BaseStrategy, MomentumStrategy, MeanReversionStrategy
 from .order_manager import OrderManager
 from .risk_manager import RiskManager
 from .trading_engine import TradingEngine
+from .backtesting import BacktestResult, BacktestAnalyzer
+from .connectors import BaseConnector, MT5Connector, IBConnector
 
 __all__ = [
     "Order",
@@ -23,4 +25,9 @@ __all__ = [
     "OrderManager",
     "RiskManager",
     "TradingEngine",
+    "BacktestResult",
+    "BacktestAnalyzer",
+    "BaseConnector",
+    "MT5Connector",
+    "IBConnector",
 ]
