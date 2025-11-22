@@ -32,4 +32,6 @@ initial_capital = 100000
 [WebServer]
 host = 0.0.0.0
 port = 5000
-debug = true
+# SECURITY WARNING: Never set debug=true in production!
+# Debug mode allows arbitrary code execution through the debugger.
+debug = false

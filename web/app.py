@@ -347,7 +347,7 @@ def get_platform_positions():
         return jsonify({'success': False, 'message': str(e)}), 500
 
 
-def run_server(host='0.0.0.0', port=5000, debug=True):
+def run_server(host='0.0.0.0', port=5000, debug=False):
     """
     Run the Flask web server
     运行Flask Web服务器
@@ -355,7 +355,11 @@ def run_server(host='0.0.0.0', port=5000, debug=True):
     Args:
         host: Host address (default: 0.0.0.0)
         port: Port number (default: 5000)
-        debug: Debug mode (default: True)
+        debug: Debug mode (default: False for security)
+    
+    Warning:
+        Never set debug=True in production environments as it allows
+        arbitrary code execution through the debugger.
     """
     app.run(host=host, port=port, debug=debug)
 
