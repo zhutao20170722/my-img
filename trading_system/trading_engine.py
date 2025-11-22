@@ -10,6 +10,7 @@ from .models import MarketData, Order, Position, Trade, OrderStatus
 from .strategies import BaseStrategy
 from .order_manager import OrderManager
 from .risk_manager import RiskManager
+from .backtesting import BacktestResult, BacktestAnalyzer
 
 
 class TradingEngine:
@@ -37,6 +38,10 @@ class TradingEngine:
         
         self.market_data_buffer: Dict[str, List[MarketData]] = {}
         self.current_prices: Dict[str, Decimal] = {}
+        
+        # Backtesting metrics tracking
+        self.equity_history: List[Dict] = []
+        self.track_equity = False
         
         self.is_running = False
     
@@ -69,6 +74,13 @@ class TradingEngine:
         if self.is_running:
             self._generate_signals(symbol)
             self._execute_orders()
+            
+            # Track equity for backtesting
+            if self.track_equity:
+                self.equity_history.append({
+                    'timestamp': market_data.timestamp,
+                    'value': float(self.get_portfolio_value())
+                })
     
     def _generate_signals(self, symbol: str):
         """根据策略生成交易信号"""
@@ -224,3 +236,49 @@ class TradingEngine:
             'total_trades': len(self.order_manager.trades),
             'risk_metrics': self.risk_manager.get_risk_metrics()
         }
+    
+    def enable_equity_tracking(self):
+        """启用权益跟踪（用于回测分析）"""
+        self.track_equity = True
+        self.equity_history = []
+    
+    def disable_equity_tracking(self):
+        """禁用权益跟踪"""
+        self.track_equity = False
+    
+    def get_backtest_result(self) -> BacktestResult:
+        """
+        获取回测结果和性能指标
+        
+        Returns:
+            BacktestResult对象，包含详细的性能指标
+        """
+        # Prepare trade data
+        trades_data = []
+        for trade in self.order_manager.trades:
+            # Calculate PnL for this trade (simplified)
+            pnl = Decimal('0')
+            if trade.side.value == "sell":
+                # For sell trades, calculate realized PnL based on position
+                if trade.symbol in self.positions:
+                    pos = self.positions[trade.symbol]
+                    pnl = (trade.price - pos.average_cost) * trade.quantity
+            
+            trades_data.append({
+                'timestamp': trade.timestamp,
+                'symbol': trade.symbol,
+                'side': trade.side.value,
+                'quantity': trade.quantity,
+                'price': float(trade.price),
+                'value': float(trade.value),
+                'pnl': float(pnl)
+            })
+        
+        # Calculate metrics using BacktestAnalyzer
+        result = BacktestAnalyzer.calculate_metrics(
+            initial_capital=self.initial_capital,
+            equity_curve=self.equity_history,
+            trades=trades_data
+        )
+        
+        return result

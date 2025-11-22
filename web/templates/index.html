@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日内交易系统 - Day Trading System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 日内交易系统 Dashboard</h1>
+            <p>Day Trading System - Web Interface</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Engine Control Panel -->
+            <section class="panel">
+                <h2>🎮 引擎控制 / Engine Control</h2>
+                <div class="controls">
+                    <button id="initEngine" class="btn btn-primary">初始化引擎 / Initialize</button>
+                    <button id="startEngine" class="btn btn-success" disabled>启动 / Start</button>
+                    <button id="stopEngine" class="btn btn-danger" disabled>停止 / Stop</button>
+                    <span id="engineStatus" class="status">未初始化 / Not Initialized</span>
+                </div>
+            </section>
+
+            <!-- Platform Connection -->
+            <section class="panel">
+                <h2>🔌 平台连接 / Platform Connection</h2>
+                <div class="controls">
+                    <select id="platformSelect">
+                        <option value="">选择平台 / Select Platform</option>
+                        <option value="mt5">MetaTrader 5 (MT5)</option>
+                        <option value="ib">Interactive Brokers (IB)</option>
+                    </select>
+                    <button id="connectPlatform" class="btn btn-primary">连接 / Connect</button>
+                    <button id="disconnectPlatform" class="btn btn-secondary" disabled>断开 / Disconnect</button>
+                    <span id="connectionStatus" class="status">未连接 / Not Connected</span>
+                </div>
+            </section>
+
+            <!-- Account Summary -->
+            <section class="panel">
+                <h2>💰 账户概览 / Account Summary</h2>
+                <div class="account-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">初始资金 / Initial Capital</div>
+                        <div id="initialCapital" class="stat-value">¥0.00</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">现金余额 / Cash</div>
+                        <div id="cash" class="stat-value">¥0.00</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">组合价值 / Portfolio Value</div>
+                        <div id="portfolioValue" class="stat-value">¥0.00</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">总盈亏 / Total P&L</div>
+                        <div id="totalPnl" class="stat-value pnl">¥0.00</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">持仓数 / Positions</div>
+                        <div id="positionsCount" class="stat-value">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">总交易 / Total Trades</div>
+                        <div id="totalTrades" class="stat-value">0</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Strategy Management -->
+            <section class="panel">
+                <h2>🎯 策略管理 / Strategy Management</h2>
+                <div class="controls">
+                    <select id="strategyType">
+                        <option value="">选择策略 / Select Strategy</option>
+                        <option value="momentum">动量策略 / Momentum</option>
+                        <option value="mean_reversion">均值回归 / Mean Reversion</option>
+                    </select>
+                    <button id="addStrategy" class="btn btn-primary">添加策略 / Add Strategy</button>
+                </div>
+                <div id="strategiesList" class="strategies-list">
+                    <p class="empty-message">暂无策略 / No strategies added</p>
+                </div>
+            </section>
+
+            <!-- Positions -->
+            <section class="panel">
+                <h2>📋 当前持仓 / Current Positions</h2>
+                <div id="positionsTable" class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>股票 / Symbol</th>
+                                <th>数量 / Quantity</th>
+                                <th>成本 / Avg Cost</th>
+                                <th>现价 / Current</th>
+                                <th>市值 / Value</th>
+                                <th>盈亏 / P&L</th>
+                            </tr>
+                        </thead>
+                        <tbody id="positionsBody">
+                            <tr>
+                                <td colspan="6" class="empty-message">暂无持仓 / No positions</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Backtest Results -->
+            <section class="panel">
+                <h2>📊 回测结果 / Backtest Results</h2>
+                <button id="refreshBacktest" class="btn btn-primary">刷新结果 / Refresh Results</button>
+                <div id="backtestResults" class="backtest-results">
+                    <p class="empty-message">点击刷新按钮获取回测结果 / Click refresh to get backtest results</p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

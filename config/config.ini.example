@@ -1,0 +1,37 @@
+# 交易系统配置示例
+# Trading System Configuration Example
+
+# MT5平台配置 / MT5 Platform Configuration
+[MT5]
+account = YOUR_MT5_ACCOUNT_NUMBER
+password = YOUR_MT5_PASSWORD
+server = YOUR_MT5_SERVER
+# path = C:/Program Files/MetaTrader 5/terminal64.exe  # Optional: MT5 terminal path
+timeout = 60000
+
+# Interactive Brokers配置 / IB Configuration
+[IB]
+host = 127.0.0.1
+port = 7497  # 7497 for TWS paper trading, 7496 for TWS live, 4001 for IB Gateway paper, 4000 for IB Gateway live
+client_id = 1
+timeout = 20
+readonly = false
+
+# 风险管理配置 / Risk Management Configuration
+[RiskManagement]
+max_position_size = 1000
+max_order_value = 100000
+max_daily_loss = 10000
+max_positions = 10
+
+# 交易引擎配置 / Trading Engine Configuration
+[Engine]
+initial_capital = 100000
+
+# Web服务器配置 / Web Server Configuration
+[WebServer]
+host = 0.0.0.0
+port = 5000
+# SECURITY WARNING: Never set debug=true in production!
+# Debug mode allows arbitrary code execution through the debugger.
+debug = false
