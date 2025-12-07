@@ -1,8 +1,20 @@
 # Day Trading System Requirements
 # 日内交易系统依赖
 
-# 本系统仅使用Python标准库，无需外部依赖
-# This system only uses Python standard library, no external dependencies required
-
 # Python版本要求 / Python version requirement
 # Python >= 3.7
+
+# 核心功能仅使用Python标准库，无需外部依赖
+# Core functionality only uses Python standard library, no external dependencies required
+
+# 可选依赖 / Optional Dependencies
+
+# Web界面 / Web Interface
+# flask>=2.0.0
+
+# MT5平台连接 / MT5 Platform Connection (Windows only)
+# MetaTrader5>=5.0.0
+
+# Interactive Brokers平台连接 / IB Platform Connection
+# ib_insync>=0.9.0
+
